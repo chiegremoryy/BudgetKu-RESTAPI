@@ -20,7 +20,7 @@ const limiter = rateLimit({
 
 app.use(limiter);
 app.get("/", (req, res) => {
-  res.json({status: true, message: "Welcome to BudgetKu API", endpoints: ["/api/auth"], serverTime: new Date(Date.now()).toLocaleString("id-ID", { timeZone: "Asia/Jakarta" })});
+  res.json({status: true, message: "Welcome to BudgetKu API", endpoints: ["/api/auth", "/api/pemasukan"], serverTime: new Date(Date.now()).toLocaleString("id-ID", { timeZone: "Asia/Jakarta" })});
 });
 
 app.use("/api/auth", authHandler);
