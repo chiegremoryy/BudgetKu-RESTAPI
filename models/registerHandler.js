@@ -18,7 +18,7 @@ const registerHandler = async (req, res) => {
       console.error("Error creating user:", error);
       return res.status(500).json({ message: "Failed to register user", error });
     }
-
+    console.log("User registered successfully:", data);
     res.status(201).json({
       status: true,
       message: "User registered successfully",

@@ -28,8 +28,8 @@ const loginHandler = async (req, res) => {
     );
 
     const decodedPayload = jwt.decode(token)
-
     res.status(200).json({ status: true, message: "Login successful", token, decodedPayload });
+    console.log("Login successful:", token);
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ message: "Internal server error" });
