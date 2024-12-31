@@ -7,7 +7,7 @@ const registerHandler = async (req, res) => {
   try {
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
-
+    
     const { data, error } = await supabase
       .from("user_data")
       .insert([{ nama, email, password: hashedPassword }])
