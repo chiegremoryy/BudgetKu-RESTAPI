@@ -1,6 +1,6 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const supabase = require('../middleware/supabaseClient');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const supabase = require("../middleware/supabaseClient");
 
 const loginHandler = async (req, res) => {
   const { email, password } = req.body;
@@ -24,11 +24,16 @@ const loginHandler = async (req, res) => {
     const token = jwt.sign(
       { id: user.id, nama: user.nama, email: user.email },
       process.env.JWT_SECRET_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: "7d" }
     );
 
-    const decodedPayload = jwt.decode(token)
-    res.status(200).json({ status: true, message: "Login successful", token, decodedPayload });
+    const decodedPayload = jwt.decode(token);
+    res.status(200).json({
+      status: true,
+      message: "Login successful",
+      token,
+      decodedPayload,
+    });
     console.log("Login successful:", token);
   } catch (error) {
     console.error("Error:", error);
