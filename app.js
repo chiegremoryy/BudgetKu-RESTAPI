@@ -5,6 +5,7 @@ const rateLimit = require("express-rate-limit");
 const authHandler = require("./routes/authRoute");
 const pemasukanHandler = require("./routes/pemasukanRoute");
 const pengeluaranHandler = require("./routes/pengeluaranRoute");
+const saldoHandler = require("./routes/saldoRoute");
 const verifyToken = require("./middleware/verifyToken");
 const app = express();
 const PORT = process.env.PORT;
@@ -24,7 +25,7 @@ app.get("/", (req, res) => {
   res.json({
     status: true,
     message: "Welcome to BudgetKu API",
-    endpoints: ["/api/auth", "/api/pemasukan", "/api/pengeluaran"],
+    endpoints: ["/api/auth", "/api/pemasukan", "/api/pengeluaran", "/api/saldo"],
     serverTime: new Date(Date.now()).toLocaleString("id-ID", {
       timeZone: "Asia/Jakarta",
     }),
@@ -34,6 +35,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authHandler);
 app.use("/api/pemasukan", verifyToken, pemasukanHandler);
 app.use("/api/pengeluaran", verifyToken, pengeluaranHandler);
+app.use("/api/saldo", verifyToken, saldoHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
