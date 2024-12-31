@@ -2,16 +2,20 @@ const supabase = require("../middleware/supabaseClient");
 
 const createPengeluaran = async (req, res) => {
   try {
-    const { tanggal, jumlah, keterangan, keperluan } = req.body;
+    const { jumlah, keterangan, keperluan } = req.body;
     const email = req.user.email;
 
-    console.log("Creating pengeluaran with data:", { tanggal, jumlah, keterangan, keperluan, email });
+    console.log("Creating pengeluaran with data:", {
+      jumlah,
+      keterangan,
+      keperluan,
+      email,
+    });
 
     const { data, error } = await supabase
       .from("data_pengeluaraan")
       .insert([
         {
-          tanggal,
           jumlah,
           keterangan,
           keperluan,
@@ -27,10 +31,14 @@ const createPengeluaran = async (req, res) => {
     }
 
     console.log("Pengeluaran created successfully:", data);
-    return res.status(201).json({ message: "Pengeluaran created successfully", data });
+    return res
+      .status(201)
+      .json({ message: "Pengeluaran created successfully", data });
   } catch (err) {
     console.error("Internal server error:", err.message);
-    return res.status(500).json({ message: "Internal server error", error: err.message });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
   }
 };
 
@@ -39,7 +47,9 @@ const getPengeluaran = async (req, res) => {
     const email = req.user.email;
     const { page = 1, limit = 10, keyword } = req.query;
 
-    console.log(`Fetching pengeluaran for email: ${email}, page: ${page}, limit: ${limit}, keyword: ${keyword}`);
+    console.log(
+      `Fetching pengeluaran for email: ${email}, page: ${page}, limit: ${limit}, keyword: ${keyword}`
+    );
 
     const offset = (page - 1) * limit;
 
@@ -71,14 +81,16 @@ const getPengeluaran = async (req, res) => {
     });
   } catch (err) {
     console.error("Internal server error:", err.message);
-    return res.status(500).json({ message: "Internal server error", error: err.message });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
   }
 };
 
 const updatePengeluaran = async (req, res) => {
   try {
     const { id } = req.params;
-    const { tanggal, jumlah, keterangan, keperluan } = req.body;
+    const { jumlah, keterangan, keperluan } = req.body;
     const email = req.user.email;
 
     console.log(`Updating pengeluaran with id: ${id}, email: ${email}`);
@@ -86,7 +98,6 @@ const updatePengeluaran = async (req, res) => {
     const { data, error } = await supabase
       .from("data_pengeluaraan")
       .update({
-        tanggal,
         jumlah,
         keterangan,
         keperluan,
@@ -102,14 +113,22 @@ const updatePengeluaran = async (req, res) => {
 
     if (!data) {
       console.log("Pengeluaran not found or doesn't belong to the user");
-      return res.status(404).json({ message: "Pengeluaran not found or doesn't belong to the user" });
+      return res
+        .status(404)
+        .json({
+          message: "Pengeluaran not found or doesn't belong to the user",
+        });
     }
 
     console.log("Pengeluaran updated successfully:", data);
-    return res.status(200).json({ message: "Pengeluaran updated successfully", data });
+    return res
+      .status(200)
+      .json({ message: "Pengeluaran updated successfully", data });
   } catch (err) {
     console.error("Internal server error:", err.message);
-    return res.status(500).json({ message: "Internal server error", error: err.message });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
   }
 };
 
@@ -134,14 +153,22 @@ const deletePengeluaran = async (req, res) => {
 
     if (!data) {
       console.log("Pengeluaran not found or doesn't belong to the user");
-      return res.status(404).json({ message: "Pengeluaran not found or doesn't belong to the user" });
+      return res
+        .status(404)
+        .json({
+          message: "Pengeluaran not found or doesn't belong to the user",
+        });
     }
 
     console.log("Pengeluaran deleted successfully:", data);
-    return res.status(200).json({ message: "Pengeluaran deleted successfully", data });
+    return res
+      .status(200)
+      .json({ message: "Pengeluaran deleted successfully", data });
   } catch (err) {
     console.error("Internal server error:", err.message);
-    return res.status(500).json({ message: "Internal server error", error: err.message });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
   }
 };
 
