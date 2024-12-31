@@ -13,7 +13,7 @@ const createPengeluaran = async (req, res) => {
     });
 
     const { data, error } = await supabase
-      .from("data_pengeluaraan")
+      .from("data_pengeluaran")
       .insert([
         {
           jumlah,
@@ -54,7 +54,7 @@ const getPengeluaran = async (req, res) => {
     const offset = (page - 1) * limit;
 
     let query = supabase
-      .from("data_pengeluaraan")
+      .from("data_pengeluaran")
       .select("*", { count: "exact" })
       .eq("email", email)
       .range(offset, offset + limit - 1);
@@ -113,11 +113,9 @@ const updatePengeluaran = async (req, res) => {
 
     if (!data) {
       console.log("Pengeluaran not found or doesn't belong to the user");
-      return res
-        .status(404)
-        .json({
-          message: "Pengeluaran not found or doesn't belong to the user",
-        });
+      return res.status(404).json({
+        message: "Pengeluaran not found or doesn't belong to the user",
+      });
     }
 
     console.log("Pengeluaran updated successfully:", data);
@@ -153,11 +151,9 @@ const deletePengeluaran = async (req, res) => {
 
     if (!data) {
       console.log("Pengeluaran not found or doesn't belong to the user");
-      return res
-        .status(404)
-        .json({
-          message: "Pengeluaran not found or doesn't belong to the user",
-        });
+      return res.status(404).json({
+        message: "Pengeluaran not found or doesn't belong to the user",
+      });
     }
 
     console.log("Pengeluaran deleted successfully:", data);
