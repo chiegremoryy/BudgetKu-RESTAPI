@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const supabase = require('../middleware/supabaseClient');
+const userModel = require('./userModels');
 
 const registerHandler = async (req, res) => {
   const { nama, email, password } = req.body;
@@ -7,22 +7,18 @@ const registerHandler = async (req, res) => {
   try {
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
-    
-    const { data, error } = await supabase
-      .from("user_data")
-      .insert([{ nama, email, password: hashedPassword }])
-      .select("id, nama, email")
-      .single();
 
-    if (error) {
-      console.error("Error creating user:", error);
-      return res.status(500).json({ message: "Failed to register user", error });
+    const existingUser = await userModel.getUserByEmail(email);
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already in use" });
     }
-    console.log("User registered successfully:", data);
+
+    const newUser = await userModel.createUser({ nama, email, hashedPassword });
+
     res.status(201).json({
       status: true,
       message: "User registered successfully",
-      data,
+      data: newUser,
     });
   } catch (error) {
     console.error("Error:", error);
