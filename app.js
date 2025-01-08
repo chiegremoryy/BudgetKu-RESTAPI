@@ -32,7 +32,6 @@ app.get("/", (req, res) => {
       "/api/auth",
       "/api/pemasukan",
       "/api/pengeluaran",
-      "/api/saldo",
       "/api/total",
       "/api/weekly",
     ],
