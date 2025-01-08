@@ -23,12 +23,12 @@ const registerHandler = require("../models/registerHandler");
  *           schema:
  *             type: object
  *             properties:
- *               username:
+ *               email:
  *                 type: string
  *               password:
  *                 type: string
  *             required:
- *               - username
+ *               - email
  *               - password
  *     responses:
  *       200:
@@ -60,14 +60,14 @@ router.post("/login", loginHandler);
  *           schema:
  *             type: object
  *             properties:
- *               username:
+ *               nama:
  *                 type: string
  *               password:
  *                 type: string
  *               email:
  *                 type: string
  *             required:
- *               - username
+ *               - nama
  *               - password
  *               - email
  *     responses:
@@ -80,7 +80,7 @@ router.post("/login", loginHandler);
  *               properties:
  *                 id:
  *                   type: string
- *                 username:
+ *                 nama:
  *                   type: string
  *                 email:
  *                   type: string
