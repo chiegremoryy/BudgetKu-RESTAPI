@@ -52,7 +52,6 @@ const getPemasukan = async (req, res) => {
     );
 
     const offset = (page - 1) * limit;
-
     let query = supabase
       .from("data_pemasukan")
       .select("*", { count: "exact" })
@@ -62,9 +61,8 @@ const getPemasukan = async (req, res) => {
     if (keyword) {
       query = query.ilike("sumber_dana", `%${keyword}%`);
     }
-
     const { data, error, count } = await query;
-
+    
     if (error) {
       console.error("Error fetching pemasukan:", error.message);
       return res.status(400).json({ message: error.message });

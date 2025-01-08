@@ -1,18 +1,13 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const supabase = require('../middleware/supabaseClient');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const userModel = require('./userModels');
 
 const loginHandler = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const { data: user, error } = await supabase
-      .from("user_data")
-      .select("id, nama, email, password")
-      .eq("email", email)
-      .single();
-
-    if (error || !user) {
+    const user = await userModel.getUserByEmail(email);
+    if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
@@ -24,11 +19,17 @@ const loginHandler = async (req, res) => {
     const token = jwt.sign(
       { id: user.id, nama: user.nama, email: user.email },
       process.env.JWT_SECRET_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: "7d" }
     );
 
-    const decodedPayload = jwt.decode(token)
-    res.status(200).json({ status: true, message: "Login successful", token, decodedPayload });
+    const decodedPayload = jwt.decode(token);
+    res.status(200).json({
+      status: true,
+      message: "Login successful",
+      token,
+      decodedPayload,
+    });
+
     console.log("Login successful:", token);
   } catch (error) {
     console.error("Error:", error);
