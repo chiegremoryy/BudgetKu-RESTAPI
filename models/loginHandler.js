@@ -7,7 +7,6 @@ const loginHandler = async (req, res) => {
 
   try {
     const user = await userModel.getUserByEmail(email);
-
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
