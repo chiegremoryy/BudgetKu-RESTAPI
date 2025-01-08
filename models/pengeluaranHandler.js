@@ -96,7 +96,7 @@ const updatePengeluaran = async (req, res) => {
     console.log(`Updating pengeluaran with id: ${id}, email: ${email}`);
 
     const { data, error } = await supabase
-      .from("data_pengeluaraan")
+      .from("data_pengeluaran")
       .update({
         jumlah,
         keterangan,
@@ -138,7 +138,7 @@ const deletePengeluaran = async (req, res) => {
     console.log(`Deleting pengeluaran with id: ${id}, email: ${email}`);
 
     const { data, error } = await supabase
-      .from("data_pengeluaraan")
+      .from("data_pengeluaran")
       .delete()
       .match({ id, email })
       .select("*")
