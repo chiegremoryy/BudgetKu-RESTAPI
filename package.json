@@ -13,19 +13,9 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },
-<<<<<<< HEAD
-  "scripts": {
-    "start": "node loginTest.js",
-    "test": "jest"
-  },
-  "devDependencies": {
-    "jest": "^29.7.0",
-    "supertest": "^7.0.0"
-=======
   "jest": {
     "testMatch": [
-      "**/test/**/*.js"
+      "/test//*.js"
     ]
->>>>>>> a0e61b837b941875917f50a7868b282ae5f71c1a
   }
 }
