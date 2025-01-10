@@ -1,59 +1,29 @@
-const supabase = require('../middleware/supabaseClient');
+const saldoModel = require("./saldoModel");
 
 const getSaldo = async (req, res) => {
   const email = req.user.email; // Email pengguna dari token JWT
   console.log('Fetching saldo for user with email:', email);
 
   try {
-    // Hitung total pemasukan
-    const { data: pemasukanData, error: pemasukanError } = await supabase
-      .from('data_pemasukan')
-      .select('jumlah')
-      .eq('email', email);
+    const { total_pemasukan, total_pengeluaran, total_saldo } = await saldoModel.getSaldoData(email);
 
-    if (pemasukanError) {
-      console.error('Error fetching pemasukan data:', pemasukanError);
-      return res.status(500).json({ message: 'Error fetching pemasukan data', error: pemasukanError });
-    }
+    console.log('Total Pemasukan:', total_pemasukan);
+    console.log('Total Pengeluaran:', total_pengeluaran);
+    console.log('Total Saldo:', total_saldo);
 
-    console.log('Pemasukan data:', pemasukanData);
-
-    const totalPemasukan = pemasukanData.reduce((acc, item) => acc + item.jumlah, 0);
-    console.log('Total Pemasukan:', totalPemasukan);
-
-    // Hitung total pengeluaran
-    const { data: pengeluaranData, error: pengeluaranError } = await supabase
-      .from('data_pengeluaran')
-      .select('jumlah')
-      .eq('email', email);
-
-    if (pengeluaranError) {
-      console.error('Error fetching pengeluaran data:', pengeluaranError);
-      return res.status(500).json({ message: 'Error fetching pengeluaran data', error: pengeluaranError });
-    }
-
-    console.log('Pengeluaran data:', pengeluaranData);
-
-    const totalPengeluaran = pengeluaranData.reduce((acc, item) => acc + item.jumlah, 0);
-    console.log('Total Pengeluaran:', totalPengeluaran);
-
-    // Hitung total saldo
-    const totalSaldo = totalPemasukan - totalPengeluaran;
-    console.log('Total Saldo:', totalSaldo);
-
-    // Kirim respons
-    res.status(200).json({
+    // Kirim respons dengan properti yang sesuai dengan yang dibutuhkan di test
+    return res.status(200).json({
       status: true,
       message: 'Total saldo berhasil dihitung',
       data: {
-        total_pemasukan: totalPemasukan,
-        total_pengeluaran: totalPengeluaran,
-        total_saldo: totalSaldo,
+        total_pemasukan,  // Perbaiki agar sesuai dengan data yang benar
+        total_pengeluaran,  // Perbaiki agar sesuai dengan data yang benar
+        total_saldo,  // Perbaiki agar sesuai dengan data yang benar
       },
     });
   } catch (error) {
     console.error('Internal server error:', error);
-    res.status(500).json({ message: 'Internal server error', error });
+    return res.status(500).json({ message: 'Internal server error', error });
   }
 };
 
