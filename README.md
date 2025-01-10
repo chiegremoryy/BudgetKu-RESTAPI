@@ -9,3 +9,5 @@ Ruang lingkup :
 6. Docs
 7. Uji minimal pakai Postman / aplikasi kecil / tugas PPB / PSC
 8. Hosting
+
+ALL IS DONE
